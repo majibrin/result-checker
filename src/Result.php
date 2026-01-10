@@ -8,7 +8,6 @@ class Result {
         $this->db = new Database();
     }
 
-    // Add a new result
     public function create($student_id, $course_id, $mark, $semester) {
         $student_id = (int)$student_id;
         $course_id = (int)$course_id;
@@ -16,54 +15,29 @@ class Result {
         $semester = $this->db->escape($semester);
 
         $sql = "INSERT INTO results (student_id, course_id, mark, semester) 
-                VALUES ($student_id, $course_id, $mark, '$semester')";
+                VALUES ($student_id, $course_id, $mark, '$semester')
+                ON DUPLICATE KEY UPDATE mark = $mark";
         return $this->db->query($sql);
     }
 
-    // Get a result by ID
-    public function getById($id) {
-        $id = (int)$id;
-        $sql = "SELECT * FROM results WHERE id = $id";
-        $result = $this->db->query($sql);
-        return $result->fetch_assoc();
-    }
-
-    // Get all results
-    public function getAll() {
-        $sql = "SELECT * FROM results ORDER BY id ASC";
-        $result = $this->db->query($sql);
-        $results = [];
-        while($row = $result->fetch_assoc()) {
-            $results[] = $row;
-        }
-        return $results;
-    }
-
-    // Get all results for a specific student
     public function getByStudent($student_id) {
         $student_id = (int)$student_id;
-        $sql = "SELECT r.*, c.name AS course_name, c.unit 
-                FROM results r
-                JOIN courses c ON r.course_id = c.id
-                WHERE r.student_id = $student_id
-                ORDER BY r.semester ASC";
-        $result = $this->db->query($sql);
-        $results = [];
-        while($row = $result->fetch_assoc()) {
-            $results[] = $row;
-        }
-        return $results;
+        $sql = "SELECT r.*, c.name as course_name, c.code as course_code, c.unit 
+                FROM results r 
+                JOIN courses c ON r.course_id = c.id 
+                WHERE r.student_id = $student_id";
+        $res = $this->db->query($sql);
+        $data = [];
+        while($row = $res->fetch_assoc()) { $data[] = $row; }
+        return $data;
     }
 
-    // Delete a result
-    public function delete($id) {
-        $id = (int)$id;
-        $sql = "DELETE FROM results WHERE id = $id";
-        return $this->db->query($sql);
-    }
-
-    // Close connection
-    public function close() {
-        $this->db->close();
+    public static function getGradeInfo($mark) {
+        if ($mark >= 70) return ['grade' => 'A', 'point' => 5];
+        if ($mark >= 60) return ['grade' => 'B', 'point' => 4];
+        if ($mark >= 50) return ['grade' => 'C', 'point' => 3];
+        if ($mark >= 45) return ['grade' => 'D', 'point' => 2];
+        if ($mark >= 40) return ['grade' => 'E', 'point' => 1];
+        return ['grade' => 'F', 'point' => 0];
     }
 }

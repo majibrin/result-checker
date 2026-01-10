@@ -1,0 +1,19 @@
+project-root/
+├─ config/
+│  └─ config.php          # DB Constants (DB_HOST, etc.)
+├─ src/
+│  ├─ Database.php        # mysqli wrapper
+│  ├─ Student.php         # Student CRUD
+│  ├─ Course.php          # Course CRUD
+│  └─ Result.php          # Result & GPA Logic
+├─ public/
+│  └─ css/
+│      └─ dashboard.css   # (Mustahabb/Styling)
+├─ login.php              # Multi-role Auth
+├─ dashboard.php          # Admin/Lecturer Home
+├─ student-dashboard.php  # Student Result View
+├─ add-student.php        # Admin Task
+├─ manage-courses.php     # Admin Task
+├─ upload-result.php      # Admin/Lecturer Task
+├─ logout.php             # Session end
+└─ result-checker.sql     # Database Schema
