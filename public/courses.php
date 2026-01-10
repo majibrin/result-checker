@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__ . '/../src/Student.php';
-$student = new Student();
-$students = $student->getAll();
+require_once __DIR__ . '/../src/Course.php';
+$course = new Course();
+$courses = $course->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Students | Result Checker</title>
+<title>Courses | Result Checker</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
@@ -20,25 +20,25 @@ $students = $student->getAll();
     <div class="brand">Result Checker</div>
     <nav class="nav-links">
         <a href="index.php">Home</a>
-        <a href="students.php" class="active">Students</a>
-        <a href="courses.php">Courses</a>
+        <a href="students.php">Students</a>
+        <a href="courses.php" class="active">Courses</a>
         <a href="results.php">Results</a>
     </nav>
     <button class="hamburger">&#9776;</button>
 </header>
 
 <main class="main-container">
-    <h1>All Students</h1>
-    <?php if (empty($students)): ?>
-        <p>No students found.</p>
+    <h1>All Courses</h1>
+    <?php if (empty($courses)): ?>
+        <p>No courses found.</p>
     <?php else: ?>
         <div class="card-grid">
-        <?php foreach ($students as $s): ?>
+        <?php foreach ($courses as $c): ?>
             <div class="card">
-                <h2><?= $s['first_name'] . ' ' . $s['last_name'] ?></h2>
-                <p><strong>Reg No:</strong> <?= $s['reg_no'] ?></p>
-                <p><strong>Dept:</strong> <?= $s['department'] ?></p>
-                <p><strong>Level:</strong> <?= $s['level'] ?></p>
+                <h2><?= $c['name'] ?></h2>
+                <p><strong>Code:</strong> <?= $c['code'] ?></p>
+                <p><strong>Unit:</strong> <?= $c['unit'] ?></p>
+                <p><strong>Lecturer:</strong> <?= $c['lecturer'] ?></p>
             </div>
         <?php endforeach; ?>
         </div>

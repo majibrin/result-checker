@@ -1,0 +1,5 @@
+@media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; background: #2e7d32; }
+    .nav-links.show { display: flex; }
+    .hamburger { display: block; background: none; border: none; font-size: 2rem; color: white; }
+}
