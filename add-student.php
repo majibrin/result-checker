@@ -7,7 +7,15 @@ require_once 'src/Student.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $s = new Student();
-    $res = $s->create($_POST['reg_no'], $_POST['first_name'], $_POST['last_name'], $_POST['department'], $_POST['level']);
+    
+    $res = $s->create(
+    $_POST['reg_no'], 
+    $_POST['first_name'], 
+    $_POST['last_name'], 
+    $_POST['department'], 
+    $_POST['level'], 
+    'password123' // You can set a default or take from a form input
+);
     $msg = $res ? "Student Added Successfully" : "Error adding student";
 }
 ?>

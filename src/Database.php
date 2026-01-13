@@ -2,34 +2,29 @@
 require_once __DIR__ . '/../config/config.php';
 
 class Database {
-    private $conn;
+    private $connection;
 
-    // Constructor: connects to the DB
     public function __construct() {
-        $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-        if ($this->conn->connect_error) {
-            die("Database connection failed: " . $this->conn->connect_error);
+        // In XAMPP, DB_PASS is usually empty ''
+        $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        if ($this->connection->connect_error) {
+            die("Connection failed: " . $this->connection->connect_error);
         }
     }
 
-    // Execute a query
     public function query($sql) {
-        return $this->conn->query($sql);
+        return $this->connection->query($sql);
     }
 
-    // Prepare and execute a statement
     public function prepare($sql) {
-        return $this->conn->prepare($sql);
+        return $this->connection->prepare($sql);
     }
 
-    // Escape string for safety
-    public function escape($str) {
-        return $this->conn->real_escape_string($str);
+    public function escape($string) {
+        return $this->connection->real_escape_string($string);
     }
 
-    // Close connection
     public function close() {
-        $this->conn->close();
+        $this->connection->close();
     }
 }

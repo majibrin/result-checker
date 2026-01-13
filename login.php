@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $db->escape($_POST['username']);
     $password = $_POST['password'];
 
-    // 1. Check Admin Table
+    // 1. Check Admins Table (using backticks for password keyword)
     $stmt = $db->prepare("SELECT * FROM admins WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // 2. Check Student Table (Reg No as Username)
+    // 2. Check Students Table (Username is the Reg No)
     $stmt = $db->prepare("SELECT * FROM students WHERE reg_no = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -32,19 +32,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: student-dashboard.php");
         exit;
     }
-    $error = "Invalid Credentials";
+
+    $error = "Invalid Credentials. Please try again.";
 }
 ?>
 <!DOCTYPE html>
-<html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login</title></head>
-<body>
-    <form method="POST">
-        <h2>Portal Login</h2>
-        <?php if(isset($error)) echo "<p>$error</p>"; ?>
-        <input type="text" name="username" placeholder="Username/Reg No" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-    </form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="public/css/dashboard.css">
+</head>
+<body class="login-page">
+    <div class="container">
+        <form method="POST">
+            <h2><i class="fa-solid fa-lock"></i> Result Portal</h2>
+            <?php if(isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+            <input type="text" name="username" placeholder="Admin User or Reg No" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>
